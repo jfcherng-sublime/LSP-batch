@@ -1,0 +1,15 @@
+{
+	"languages": [
+		{
+			"languageId": "bat",
+			"scopes": [
+				"source.dosbatch",
+			],
+			"syntaxes": [
+				"Packages/Batch File/Batch File.sublime-syntax",
+			],
+		},
+	],
+	"initializationOptions": {},
+	"settings": {},
+}
