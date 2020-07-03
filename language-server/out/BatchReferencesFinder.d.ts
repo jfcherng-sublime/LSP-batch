@@ -3,12 +3,11 @@ import { Location } from "vscode-languageserver";
  * Class to find Batch references
  */
 export declare class BatchReferencesFinder {
-    /** Editor text*/
     private text;
     /**
      * Constructor of Find
      *
-     * @param editor
+     * @param editor editor text
      */
     constructor(text: string);
     /**
@@ -18,4 +17,5 @@ export declare class BatchReferencesFinder {
      * @param uri current source uri
      */
     findReferences(term: string, uri: string): Promise<Location[]>;
+    private convertBatchPositionsToLocations;
 }

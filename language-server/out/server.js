@@ -53,11 +53,8 @@ connection.onDefinition((params) => {
             const word = getLineText(text, params.position.line, params.position.character);
             new BatchDeclarationFinder_1.BatchDeclarationFinder(text)
                 .findDeclaration(word, params.textDocument.uri)
-                .then((location) => {
-                resolve(location);
-            }).catch(() => {
-                resolve(undefined);
-            });
+                .then((location) => resolve(location))
+                .catch(() => resolve(undefined));
         }
         else {
             reject(new vscode_languageserver_1.ResponseError(vscode_languageserver_1.ErrorCodes.RequestCancelled, "Error to find declaration"));
@@ -72,11 +69,8 @@ connection.onReferences((params) => {
             const word = getLineText(text, params.position.line, params.position.character);
             new BatchReferencesFinder_1.BatchReferencesFinder(text)
                 .findReferences(word, params.textDocument.uri)
-                .then((locations) => {
-                resolve(locations);
-            }).catch(() => {
-                resolve(undefined);
-            });
+                .then((locations) => resolve(locations))
+                .catch(() => resolve(undefined));
         }
         else {
             reject(new vscode_languageserver_1.ResponseError(vscode_languageserver_1.ErrorCodes.RequestCancelled, "Error to find references"));
@@ -94,9 +88,7 @@ connection.onRenameRequest((params) => {
                 .then((locations) => {
                 const textEdits = convertLocationsToTextEdits(locations, word, params.newName);
                 resolve({ changes: { [params.textDocument.uri]: textEdits } });
-            }).catch(() => {
-                resolve(undefined);
-            });
+            }).catch(() => resolve(undefined));
         }
         else {
             reject(new vscode_languageserver_1.ResponseError(vscode_languageserver_1.ErrorCodes.RequestCancelled, "Error to rename"));

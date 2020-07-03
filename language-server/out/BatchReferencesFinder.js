@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BatchReferencesFinder = void 0;
 const vscode_languageserver_1 = require("vscode-languageserver");
-const rech_ts_commons_1 = require("rech-ts-commons");
+const BatchReferencesProvider_1 = require("./BatchReferencesProvider");
 /** Minimum word size */
 const MIN_WORD_SIZE = 3;
 /**
@@ -12,7 +12,7 @@ class BatchReferencesFinder {
     /**
      * Constructor of Find
      *
-     * @param editor
+     * @param editor editor text
      */
     constructor(text) {
         this.text = text;
@@ -25,20 +25,22 @@ class BatchReferencesFinder {
      */
     findReferences(term, uri) {
         return new Promise((resolve, reject) => {
-            // If the word is too small
-            if (term.length < MIN_WORD_SIZE) {
-                reject();
-                return;
-            }
-            let result = [];
-            const regexText = '[\\s\\.\\%\\!\\:\\,\\)\\(](' + term + ')[\\s\\t\\n\\r\\.\\%\\!\\:\\=\\,\\)\\(]';
-            const elementUsage = new RegExp(regexText, "img");
-            new rech_ts_commons_1.Scan(this.text).scan(elementUsage, (iterator) => {
-                const range = vscode_languageserver_1.Range.create(vscode_languageserver_1.Position.create(iterator.row, iterator.column + 1), vscode_languageserver_1.Position.create(iterator.row, iterator.column + 1));
-                result.push({ uri: uri, range: range });
-            });
-            resolve(result);
+            new BatchReferencesProvider_1.BatchReferencesProvider()
+                .findReferences(this.text, term)
+                .then((positions) => {
+                const result = this.convertBatchPositionsToLocations(positions, uri);
+                resolve(result);
+            })
+                .catch(() => reject());
         });
+    }
+    convertBatchPositionsToLocations(positions, uri) {
+        const result = [];
+        positions.forEach(position => {
+            const range = vscode_languageserver_1.Range.create(vscode_languageserver_1.Position.create(position.line, position.column), vscode_languageserver_1.Position.create(position.line, position.column));
+            result.push({ uri: uri, range: range });
+        });
+        return result;
     }
 }
 exports.BatchReferencesFinder = BatchReferencesFinder;

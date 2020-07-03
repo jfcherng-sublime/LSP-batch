@@ -10,7 +10,7 @@ class BatchDeclarationFinder {
     /**
      * Constructor of Find
      *
-     * @param buffer
+     * @param buffer editor text
      */
     constructor(buffer) {
         this.buffer = buffer;

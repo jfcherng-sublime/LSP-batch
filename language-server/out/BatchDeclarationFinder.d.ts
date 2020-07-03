@@ -3,12 +3,11 @@ import { Location } from "vscode-languageserver";
  * Class to find Batch declarations
  */
 export declare class BatchDeclarationFinder {
-    /** Editor text*/
     private buffer;
     /**
      * Constructor of Find
      *
-     * @param buffer
+     * @param buffer editor text
      */
     constructor(buffer: string);
     /**

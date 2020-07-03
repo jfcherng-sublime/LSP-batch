@@ -2,7 +2,7 @@
 	"name": "rech-editor-batch",
 	"displayName": "Rech Batch",
 	"description": "Edit Batch files with Visual Studio Code",
-	"version": "0.0.14",
+	"version": "0.0.16",
 	"publisher": "rechinformatica",
 	"engines": {
 		"vscode": "^1.35.0"
@@ -80,7 +80,7 @@
 			{
 				"command": "rech.editor.batch.tab",
 				"key": "tab",
-				"when": "editorLangId == bat && !inSnippetMode"
+				"when": "editorLangId == bat && !inSnippetMode && !suggestWidgetVisible"
 			},
 			{
 				"command": "rech.editor.batch.revtab",
@@ -95,8 +95,7 @@
 		"compile": "npm run tslint && tsc -p ./",
 		"compile:client": "tsc -p ./",
 		"compile:server": "tsc -p ./",
-		"watch:client": "tsc -watch -p ./",
-		"watch:server": "tsc -watch -p ./",
+		"watch": "tsc -watch -p ./",
 		"commented-postinstall": "node ./node_modules/vscode/bin/install",
 		"test": "npm run compile && mocha -r ts-node/register ./src/test/**/*.test.ts",
 		"tslint": "tslint --project tsconfig.json --config tslint.json"
@@ -118,7 +117,7 @@
 		"@types/mocha": "^2.2.48",
 		"@types/node": "^8.10.25",
 		"mocha": "^5.2.0",
-		"typescript": "^3.9.5",
+		"typescript": "^3.9.6",
 		"vsce": "^1.53.0",
 		"vscode": "^1.1.21"
 	},
