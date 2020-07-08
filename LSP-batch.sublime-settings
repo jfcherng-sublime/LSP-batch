@@ -3,12 +3,7 @@
 	"languages": [
 		{
 			"languageId": "bat",
-			"scopes": [
-				"source.dosbatch",
-			],
-			"syntaxes": [
-				"Packages/Batch File/Batch File.sublime-syntax",
-			],
+			"document_selector": "source.dosbatch",
 		},
 	],
 	"initializationOptions": {},
