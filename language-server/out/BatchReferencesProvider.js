@@ -36,8 +36,8 @@ class BatchReferencesProvider {
         });
     }
     shouldIgnoreElement(term, lineText, column) {
-        let enclosed = this.isEnclosedInQuotes(lineText, column);
-        let variable = this.isVariableReference(term, lineText, column);
+        const enclosed = this.isEnclosedInQuotes(lineText, column);
+        const variable = this.isVariableReference(term, lineText, column);
         return enclosed && !variable;
     }
     isEnclosedInQuotes(lineText, column) {
