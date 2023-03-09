@@ -90,9 +90,8 @@ popd || exit
 # clean up #
 # -------- #
 
-pushd "${REPO_DIR}" || exit
-
-rm -rf "${SRC_DIR}"
-
-popd || exit
-
+rm -rf \
+    "${DIST_DIR}/"*.map \
+    "${DIST_DIR}/"*.d.ts \
+    "${SRC_DIR}" \
+    --
