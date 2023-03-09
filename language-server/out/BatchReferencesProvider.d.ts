@@ -12,6 +12,7 @@ export declare class BatchReferencesProvider {
      * @param term Term to find
      */
     findReferences(text: string, term: string): Promise<BatchElementPosition[]>;
+    private shouldMoveColumnCursor;
     private shouldIgnoreElement;
     private isEnclosedInQuotes;
     private isVariableReference;

@@ -12,5 +12,5 @@ export declare class Client {
     /**
      * Stops the LSP client if it has ben previously started
      */
-    static stopClient(): Thenable<void> | undefined;
+    static stopClient(): Promise<void> | undefined;
 }

@@ -21,19 +21,26 @@ class BatchReferencesProvider {
         return new Promise((resolve, reject) => {
             // If the word is too small
             if (term.length < MIN_WORD_SIZE) {
-                reject();
-                return;
+                return reject();
             }
             const result = [];
-            const regexText = '[\\s\\.\\%\\!\\:\\,\\)\\(](' + term + ')[\\s\\t\\n\\r\\.\\%\\!\\:\\=\\,\\)\\(]';
+            const regexText = '([\\s\\.\\%\\!\\:\\,\\)\\(])?(' + term + ')([\\s\\t\\n\\r\\.\\%\\!\\:\\=\\,\\)\\(])?';
             const elementUsage = new RegExp(regexText, "img");
             new rech_ts_commons_1.Scan(text).scan(elementUsage, (iterator) => {
                 if (!this.shouldIgnoreElement(term, iterator.lineContent, iterator.column)) {
-                    result.push({ line: iterator.row, column: iterator.column + 1 });
+                    result.push({ line: iterator.row, column: this.shouldMoveColumnCursor(iterator) });
                 }
             });
-            resolve(result);
+            return resolve(result);
         });
+    }
+    shouldMoveColumnCursor(iterator) {
+        if (iterator.column != 0 || iterator.match.includes(":")) {
+            return iterator.column + 1;
+        }
+        else {
+            return iterator.column;
+        }
     }
     shouldIgnoreElement(term, lineText, column) {
         const enclosed = this.isEnclosedInQuotes(lineText, column);
@@ -59,7 +66,8 @@ class BatchReferencesProvider {
         for (let i = 0; i < symbols.length && !variable; i++) {
             const symbol = symbols[i];
             const indexBeforeElement = column;
-            const indexAfterElement = column + term.length + 1;
+            var indexAfterElement = column + term.length;
+            indexAfterElement++;
             if (lineText[indexBeforeElement] == symbol && lineText[indexAfterElement] == symbol) {
                 variable = true;
             }

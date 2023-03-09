@@ -51,6 +51,11 @@ popd || exit
 
 pushd "${SRC_DIR}" || exit
 
+sed package.json -i'' \
+    -e 's#"@types/node":.*#"@types/node": "^16",#g' \
+    -e 's#"main":.*#"main": ".\/out\/server.js",#g' \
+    --
+
 npm install
 npm install -D typescript
 
@@ -62,12 +67,6 @@ popd || exit
 # ------- #
 
 pushd "${SRC_DIR}" || exit
-
-# we don't need the post-install script which is for VSCode
-sed package.json -i'' \
-    -e 's/"main":.*/"main": ".\/out\/server.js",/g' \
-    -e 's/"postinstall":/"commented-postinstall":/g' \
-    --
 
 npx tsc --newLine LF -p .
 

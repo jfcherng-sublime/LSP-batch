@@ -14,18 +14,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getLineText = exports.convertLocationsToTextEdits = exports.hasTypedEnter = void 0;
-const vscode_languageserver_1 = require("vscode-languageserver");
+const node_1 = require("vscode-languageserver/node");
+const vscode_languageserver_textdocument_1 = require("vscode-languageserver-textdocument");
 const rech_ts_commons_1 = require("rech-ts-commons");
 const BatchDeclarationFinder_1 = require("./BatchDeclarationFinder");
 const BatchReferencesFinder_1 = require("./BatchReferencesFinder");
 // Create a connection for the server. The connection uses Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
-const connection = vscode_languageserver_1.createConnection(vscode_languageserver_1.ProposedFeatures.all);
-const documents = new vscode_languageserver_1.TextDocuments();
+const connection = (0, node_1.createConnection)(node_1.ProposedFeatures.all);
+const documents = new node_1.TextDocuments(vscode_languageserver_textdocument_1.TextDocument);
 connection.onInitialize((_params) => __awaiter(void 0, void 0, void 0, function* () {
     return {
         capabilities: {
-            textDocumentSync: documents.syncKind,
+            textDocumentSync: node_1.TextDocumentSyncKind.Incremental,
             definitionProvider: true,
             referencesProvider: true,
             renameProvider: true,
@@ -43,7 +44,7 @@ function hasTypedEnter(ch) {
 exports.hasTypedEnter = hasTypedEnter;
 connection.onInitialized(() => {
     // Register for all configuration changes.
-    connection.client.register(vscode_languageserver_1.DidChangeConfigurationNotification.type, undefined);
+    void connection.client.register(node_1.DidChangeConfigurationNotification.type, undefined);
 });
 connection.onDefinition((params) => {
     return new Promise((resolve, reject) => {
@@ -57,7 +58,7 @@ connection.onDefinition((params) => {
                 .catch(() => resolve(undefined));
         }
         else {
-            reject(new vscode_languageserver_1.ResponseError(vscode_languageserver_1.ErrorCodes.RequestCancelled, "Error to find declaration"));
+            reject(new node_1.ResponseError(node_1.ErrorCodes.UnknownErrorCode, "Error to find declaration"));
         }
     });
 });
@@ -70,10 +71,10 @@ connection.onReferences((params) => {
             new BatchReferencesFinder_1.BatchReferencesFinder(text)
                 .findReferences(word, params.textDocument.uri)
                 .then((locations) => resolve(locations))
-                .catch(() => resolve(undefined));
+                .catch(() => reject(undefined));
         }
         else {
-            reject(new vscode_languageserver_1.ResponseError(vscode_languageserver_1.ErrorCodes.RequestCancelled, "Error to find references"));
+            return reject(new node_1.ResponseError(node_1.ErrorCodes.UnknownErrorCode, "Error to find references"));
         }
     });
 });
@@ -91,7 +92,7 @@ connection.onRenameRequest((params) => {
             }).catch(() => resolve(undefined));
         }
         else {
-            reject(new vscode_languageserver_1.ResponseError(vscode_languageserver_1.ErrorCodes.RequestCancelled, "Error to rename"));
+            reject(new node_1.ResponseError(node_1.ErrorCodes.UnknownErrorCode, "Error to rename"));
         }
     });
 });
@@ -107,7 +108,7 @@ function convertLocationsToTextEdits(locations, oldName, newName) {
         const column = currentLocation.range.start.character;
         textEdits.push({
             newText: newName,
-            range: vscode_languageserver_1.Range.create(vscode_languageserver_1.Position.create(line, column), vscode_languageserver_1.Position.create(line, column + oldName.length))
+            range: node_1.Range.create(node_1.Position.create(line, column), node_1.Position.create(line, column + oldName.length))
         });
     });
     return textEdits;

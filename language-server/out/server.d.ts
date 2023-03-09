@@ -1,4 +1,4 @@
-import { Location, TextEdit } from "vscode-languageserver";
+import { Location, TextEdit } from "vscode-languageserver/node";
 /**
  * Retrun if the character that has been typed is a enter
  *

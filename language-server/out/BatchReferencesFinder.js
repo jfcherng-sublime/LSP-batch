@@ -3,8 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BatchReferencesFinder = void 0;
 const vscode_languageserver_1 = require("vscode-languageserver");
 const BatchReferencesProvider_1 = require("./BatchReferencesProvider");
-/** Minimum word size */
-const MIN_WORD_SIZE = 3;
 /**
  * Class to find Batch references
  */
@@ -12,7 +10,7 @@ class BatchReferencesFinder {
     /**
      * Constructor of Find
      *
-     * @param editor editor text
+     * @param text editor text
      */
     constructor(text) {
         this.text = text;

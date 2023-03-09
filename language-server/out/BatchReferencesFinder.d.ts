@@ -7,7 +7,7 @@ export declare class BatchReferencesFinder {
     /**
      * Constructor of Find
      *
-     * @param editor editor text
+     * @param text editor text
      */
     constructor(text: string);
     /**

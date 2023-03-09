@@ -32,10 +32,10 @@ class BatchDeclarationFinder {
                 iterator.stop();
             });
             if (declaration) {
-                resolve(declaration);
+                return resolve(declaration);
             }
             else {
-                reject();
+                return reject();
             }
         });
     }
