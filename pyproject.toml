@@ -1,13 +1,74 @@
-[tool.black]
-line-length = 120
-target-version = ['py38']
+[project]
+name = "lsp-batch"
+version = "0.0.0"
+description = "Windows Batch support for Sublime's LSP plugin provided through RechInformatica/rech-editor-batch."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
 
-# regex
-exclude = '''
-/(
-  \.git |
-  language-server |
-  plugin/libs |
-  stubs
-)/
-'''
+[dependency-groups]
+dev = [
+  "mypy>=1.14",
+  "ruff>=0.13",
+]
+
+[tool.uv]
+default-groups = ["dev"]
+
+[tool.mypy]
+# ignore_missing_imports = False
+check_untyped_defs = true
+strict_optional = true
+mypy_path = 'typings:stubs'
+python_version = '3.8'
+
+[[tool.mypy.overrides]]
+module = [
+    "LSP.*",
+    "lsp_utils.*",
+    "mdpopups.*",
+    "sublime_lib.*",
+    "typings.*",
+]
+ignore_errors = true
+ignore_missing_imports = true
+
+[tool.pyright]
+pythonVersion = '3.8'
+reportAny = "none"
+reportUnusedCallResult = "none"
+typeCheckingMode = "standard"
+
+[tool.ruff]
+preview = true
+line-length = 120
+target-version = 'py38'
+exclude = [
+  "*/libs/*",
+  ".git",
+  ".mypy_cache",
+  ".venv",
+  ".venv-*",
+  "branch-*",
+  "overwrites/extension/dist/typeshed-fallback",
+  "stubs",
+  "syntaxes",
+  "tests/files",
+  "typings",
+  "vendor",
+  "venv",
+  "venv-*",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "FURB", "SIM"]
+ignore = ["E203"]
+
+[tool.ruff.lint.per-file-ignores]
+"boot.py" = ["E402"]
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+combine-as-imports = true
+order-by-type = false
+required-imports = ["from __future__ import annotations"]

@@ -52,7 +52,7 @@ popd || exit
 pushd "${SRC_DIR}" || exit
 
 sed package.json -i'' \
-    -e 's#"@types/node":.*#"@types/node": "^16",#g' \
+    -e 's#"@types/node":.*#"@types/node": "^18",#g' \
     -e 's#"main":.*#"main": ".\/out\/server.js",#g' \
     --
 

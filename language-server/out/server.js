@@ -3,15 +3,6 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getLineText = exports.convertLocationsToTextEdits = exports.hasTypedEnter = void 0;
 const node_1 = require("vscode-languageserver/node");
@@ -23,7 +14,7 @@ const BatchReferencesFinder_1 = require("./BatchReferencesFinder");
 // Also include all preview / proposed LSP features.
 const connection = (0, node_1.createConnection)(node_1.ProposedFeatures.all);
 const documents = new node_1.TextDocuments(vscode_languageserver_textdocument_1.TextDocument);
-connection.onInitialize((_params) => __awaiter(void 0, void 0, void 0, function* () {
+connection.onInitialize(async (_params) => {
     return {
         capabilities: {
             textDocumentSync: node_1.TextDocumentSyncKind.Incremental,
@@ -32,7 +23,7 @@ connection.onInitialize((_params) => __awaiter(void 0, void 0, void 0, function*
             renameProvider: true,
         }
     };
-}));
+});
 /**
  * Retrun if the character that has been typed is a enter
  *
