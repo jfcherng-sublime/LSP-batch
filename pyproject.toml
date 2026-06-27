@@ -4,7 +4,9 @@ version = "0.0.0"
 description = "Windows Batch support for Sublime's LSP plugin provided through RechInformatica/rech-editor-batch."
 readme = "README.md"
 requires-python = ">=3.8"
-dependencies = []
+dependencies = [
+  "typing-extensions>=4.12",
+]
 
 [dependency-groups]
 dev = [
@@ -61,14 +63,29 @@ exclude = [
 ]
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "I", "UP", "FURB", "SIM"]
-ignore = ["E203"]
+select = [
+  "B",
+  "C4",
+  "E",
+  "F",
+  "FURB",
+  "I",
+  "PERF",
+  "PIE",
+  "RET",
+  "RUF",
+  "SIM",
+  "UP",
+  "W",
+]
+ignore = [
+  "B903",  # test stubs may not be dataclasses
+  "E203",
+  "RUF067",  # ST plugins need plugin_loaded/unloaded in __init__.py
+]
+
+[tool.ruff.lint.isort]
+force-single-line = true
 
 [tool.ruff.lint.per-file-ignores]
 "boot.py" = ["E402"]
-
-[tool.ruff.lint.isort]
-case-sensitive = true
-combine-as-imports = true
-order-by-type = false
-required-imports = ["from __future__ import annotations"]

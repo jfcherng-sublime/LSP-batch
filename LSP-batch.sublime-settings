@@ -1,11 +1,9 @@
 {
-	// @see https://github.com/RechInformatica/rech-editor-batch
-	"languages": [
-		{
-			"languageId": "bat",
-			"document_selector": "source.dosbatch",
-		},
+	"command": ["${node_bin}", "${server_path}", "--stdio"],
+	"schemes": [
+		"file", // regular files
+		"buffer", // in-memory buffers
+		"res", // files in .sublime-package archives
 	],
-	"initializationOptions": {},
-	"settings": {},
+	"selector": "source.dosbatch",
 }

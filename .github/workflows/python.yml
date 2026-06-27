@@ -42,7 +42,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Prepare stubs
         run: |
-          mkdir -p ~/stubs
+          mkdir -p ~/stubs typings/
           # LSP
           git clone --depth=1 --single-branch https://github.com/sublimelsp/LSP ~/stubs/LSP
           ln -sfn ~/stubs/LSP typings/LSP
